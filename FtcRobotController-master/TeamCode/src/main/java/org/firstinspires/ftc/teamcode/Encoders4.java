@@ -49,6 +49,8 @@ public class Encoders4 extends LinearOpMode {
         backLeft = hardwareMap.dcMotor.get("backLeft");
         backRight = hardwareMap.dcMotor.get("backRight");
 
+        // some funky shady stuff going on rn
+        // this is simply a test
 
         lift = hardwareMap.dcMotor.get("lift");
         //lift2 = hardwareMap.dcMotor.get("lift2");

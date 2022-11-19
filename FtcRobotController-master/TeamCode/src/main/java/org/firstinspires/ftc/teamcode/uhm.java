@@ -18,7 +18,7 @@ public class uhm extends LinearOpMode {
     //Game-Related
     DcMotor lift, lift2;
     CRServo claw1, claw2;
-    // DcMotor lift2;
+    
     private ElapsedTime     runtime = new ElapsedTime();
 
 
@@ -51,8 +51,9 @@ public class uhm extends LinearOpMode {
 
 
         lift = hardwareMap.dcMotor.get("lift");
-        // lift2 = hardwareMap.dcMotor.get("lift2");
+        lift2 = hardwareMap.dcMotor.get("lift2");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         claw1 = hardwareMap.crservo.get("claw1");
         claw2 = hardwareMap.crservo.get("claw2");
@@ -60,7 +61,7 @@ public class uhm extends LinearOpMode {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -71,12 +72,14 @@ public class uhm extends LinearOpMode {
         telemetry.update();
 
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -120,14 +123,7 @@ public class uhm extends LinearOpMode {
         telemetry.update();
     }
 
-    /*
-     *  Method to perform a relative move, based on encoder counts.
-     *  Encoders are not reset as the move is based on the current position.
-     *  Move will stop if any of three conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Move runs out of time
-     *  3) Driver stops the opmode running.
-     */
+
     public void liftEncoderDrive(double speed,
                                 double inches,
                                 double timeoutS) {
@@ -142,7 +138,7 @@ public class uhm extends LinearOpMode {
 
             // Determine new target position, and pass to motor controller
             newliftTarget = lift.getCurrentPosition() + (int) (inches * LIFT_PER_INCH);
-            newlift2Target = lift2.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH);
+            newlift2Target = lift2.getCurrentPosition() + (int) (inches * LIFT_PER_INCH);
             lift.setTargetPosition(newliftTarget);
             lift2.setTargetPosition(newlift2Target);
             // Turn On RUN_TO_POSITION

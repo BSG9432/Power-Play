@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         DcMotor backLeft;
         DcMotor backRight;
         DcMotor lift;
-    //  DcMotor lift2;
+        DcMotor lift2;
         CRServo claw1;
         CRServo claw2;
 
@@ -25,7 +25,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
             lift = hardwareMap.dcMotor.get("lift");
             claw1 = hardwareMap.crservo.get("claw1");
             claw2 = hardwareMap.crservo.get("claw2");
-           // lift2 = hardwareMap.dcMotor.get("lift2");
+            lift2 = hardwareMap.dcMotor.get("lift2");
         }
 
         @Override
@@ -63,13 +63,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
             //Game Related (P2)
             if (Math.abs(gamepad2.left_trigger) > .1) {
                 lift.setPower(gamepad2.left_trigger);
-                // lift2.setPower(gamepad2.left_trigger);
+                lift2.setPower(-gamepad2.left_trigger);
             } else if (Math.abs(gamepad2.right_trigger) > .1) {
                 lift.setPower(-gamepad2.right_trigger);
-                // lift2.setPower(-gamepad2.right_trigger);
+                lift2.setPower(gamepad2.right_trigger);
             } else {
                 lift.setPower(0);
-                // lift2.setPower(0);
+                lift2.setPower(0);
             }
 
             //Two Simultaneous Carousels

@@ -18,7 +18,7 @@ public class uhm extends LinearOpMode {
     //Game-Related
     DcMotor lift, lift2;
     CRServo claw1, claw2;
-    
+
     private ElapsedTime     runtime = new ElapsedTime();
 
 
@@ -105,16 +105,17 @@ public class uhm extends LinearOpMode {
 
         // strafe left --> make left negative
         //First autonomous
+       // claw1.setPower(0);
+       // claw2.setPower(0);
+       // encoderDrive(DRIVE_SPEED, 3, 3,3);
         encoderDriveStrafe(DRIVE_SPEED, 22, -22,5);
         encoderDrive(DRIVE_SPEED, 25, 25, 5);
         encoderDriveStrafe(DRIVE_SPEED, 15.5, -15.5,5);
         claw1.setPower(.5);
         claw2.setPower(-.4);
         encoderDrive(DRIVE_SPEED,-2, -2, 1.0);
-        liftEncoderDrive(DRIVE_SPEED,-54,5.0);
+        liftEncoderDrive(DRIVE_SPEED,-58,5.0);
         encoderDrive(DRIVE_SPEED, 7, 7, 5);
-        claw1.setPower(0);
-        claw2.setPower(0);
         sleep(3000);
         encoderDrive(DRIVE_SPEED, 0, 0, 5 );
         encoderDrive(DRIVE_SPEED, -7.5, -7.5, 5);
@@ -138,7 +139,7 @@ public class uhm extends LinearOpMode {
 
             // Determine new target position, and pass to motor controller
             newliftTarget = lift.getCurrentPosition() + (int) (inches * LIFT_PER_INCH);
-            newlift2Target = lift2.getCurrentPosition() + (int) (inches * LIFT_PER_INCH);
+            newlift2Target = lift2.getCurrentPosition() - (int) (inches * LIFT_PER_INCH);
             lift.setTargetPosition(newliftTarget);
             lift2.setTargetPosition(newlift2Target);
             // Turn On RUN_TO_POSITION
@@ -147,7 +148,7 @@ public class uhm extends LinearOpMode {
             // reset the timeout time and start motion.
             runtime.reset();
             lift.setPower(Math.abs(speed));
-            lift2.setPower(Math.abs(speed));
+            lift2.setPower(Math.abs(-speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

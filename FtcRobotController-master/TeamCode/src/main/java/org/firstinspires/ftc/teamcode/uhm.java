@@ -110,14 +110,15 @@ public class uhm extends LinearOpMode {
        // encoderDrive(DRIVE_SPEED, 3, 3,3);
         encoderDriveStrafe(DRIVE_SPEED, 22, -22,5);
         encoderDrive(DRIVE_SPEED, 25, 25, 5);
-        encoderDriveStrafe(DRIVE_SPEED, 15.5, -15.5,5);
+        encoderDriveStrafe(DRIVE_SPEED, 16.5, -16.5,5);
         claw1.setPower(.5);
         claw2.setPower(-.4);
         encoderDrive(DRIVE_SPEED,-2, -2, 1.0);
-        liftEncoderDrive(DRIVE_SPEED,-58,5.0);
-        encoderDrive(DRIVE_SPEED, 7, 7, 5);
-        sleep(3000);
-        encoderDrive(DRIVE_SPEED, 0, 0, 5 );
+        liftEncoderDrive(DRIVE_SPEED,-68,5.0);
+        encoderDrive(DRIVE_SPEED, 8.5, 8.5, 5);
+        liftEncoderDrive(DRIVE_SPEED,68,5.0);
+        //sleep(3000);
+        //encoderDrive(DRIVE_SPEED, 0, 0, 5 );
         encoderDrive(DRIVE_SPEED, -7.5, -7.5, 5);
 
         telemetry.addData("Path", "Complete");

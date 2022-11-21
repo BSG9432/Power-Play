@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Encoders3")
+@Autonomous(name = "A2")
 public class Encoders3 extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -18,7 +18,7 @@ public class Encoders3 extends LinearOpMode {
     //Game-Related
     DcMotor lift;
     CRServo claw1, claw2;
-    // DcMotor lift2;
+    DcMotor lift2;
     private ElapsedTime     runtime = new ElapsedTime();
 
 
@@ -51,8 +51,9 @@ public class Encoders3 extends LinearOpMode {
 
 
         lift = hardwareMap.dcMotor.get("lift");
-        //lift2 = hardwareMap.dcMotor.get("lift2");
+        lift2 = hardwareMap.dcMotor.get("lift2");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         claw1 = hardwareMap.crservo.get("claw1");
         claw2 = hardwareMap.crservo.get("claw2");
@@ -71,12 +72,14 @@ public class Encoders3 extends LinearOpMode {
         telemetry.update();
 
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -143,7 +146,7 @@ public class Encoders3 extends LinearOpMode {
                                  double inches,
                                  double timeoutS) {
         int newliftTarget;
-        // int newBackLeftTarget;
+        int newlift2Target;
         //  int newFrontRightTarget;
         //  int newBackRightTarget;
 
@@ -151,28 +154,32 @@ public class Encoders3 extends LinearOpMode {
         if (opModeIsActive()) {
 
             lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             // frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             // backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             // backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             // Determine new target position, and pass to motor controller
             newliftTarget = lift.getCurrentPosition() + (int) (inches * LIFT_PER_INCH);
+            newlift2Target = lift2.getCurrentPosition() - (int) (inches * LIFT_PER_INCH);
             // newBackLeftTarget = backLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
             // newFrontRightTarget = frontRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             // newBackRightTarget = backRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             lift.setTargetPosition(newliftTarget);
+            lift2.setTargetPosition(newlift2Target);
             //  backLeft.setTargetPosition(newBackLeftTarget);
             //  frontRight.setTargetPosition(newFrontRightTarget);
             //  backRight.setTargetPosition(newBackRightTarget);
             // Turn On RUN_TO_POSITION
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // reset the timeout time and start motion.
             runtime.reset();
             lift.setPower(Math.abs(speed));
-            // backLeft.setPower(Math.abs(speed));
+            lift2.setPower(Math.abs(-speed));
             //  frontRight.setPower(Math.abs(speed));
             //  backRight.setPower(Math.abs(speed));
 
@@ -198,12 +205,14 @@ public class Encoders3 extends LinearOpMode {
 
             // Stop all motion;
             lift.setPower(0);
+            lift2.setPower(0);
             //backLeft.setPower(0);
             // frontRight.setPower(0);
             // backRight.setPower(0);
 
             // Turn off RUN_TO_POSITION
             lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             // backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             // frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             // backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

@@ -1,22 +1,18 @@
+package org.firstinspires.ftc.teamcode.vision;
 
-        package org.firstinspires.ftc.teamcode.vision;
-
-        import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-
-        import org.opencv.core.Core;
-        import org.opencv.core.Mat;
-        import org.opencv.core.Point;
-        import org.opencv.core.Rect;
-        import org.opencv.core.Scalar;
-        import org.opencv.core.Size;
-        import org.opencv.imgproc.Imgproc;
-        import org.openftc.easyopencv.OpenCvPipeline;
-
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.OpenCvPipeline;
 
 public class SleeveDetection extends OpenCvPipeline {
     /*
     GREEN  = Parking Left
-    BROWN   = Parking Middle
+    CYAN    = Parking Middle
     MAGENTA = Parking Right
      */
 
@@ -33,27 +29,11 @@ public class SleeveDetection extends OpenCvPipeline {
     public static int REGION_WIDTH = 30;
     public static int REGION_HEIGHT = 50;
 
-    // Lower and upper boundaries for colors
-    private static final Scalar
-            // green scalar
-            lower_green_bounds  = new Scalar(0, 144, 0, 255),
-            upper_green_bounds  = new Scalar(40, 255, 30, 255),
-    // brown scalar
-             lower_brown_bounds    = new Scalar(129, 103, 60, 255),
-            upper_brown_bounds    = new Scalar(200, 130, 76, 255),
-    // magenta scalar
-            lower_magenta_bounds = new Scalar(170, 0, 80, 255),
-            upper_magenta_bounds = new Scalar(255, 42, 178, 255);
-
     // Color definitions
     private final Scalar
             GREEN  = new Scalar(31, 234, 0),
-            BROWN   = new Scalar(150, 110, 80),
+            CYAN    = new Scalar(0, 255, 255),
             MAGENTA = new Scalar(255, 37, 189);
-
-    // Percent and mat definitions
-    private double grePercent, broPercent, magPercent;
-    private Mat greMat = new Mat(), broMat = new Mat(), magMat = new Mat(), blurredMat = new Mat();
 
     // Anchor point definitions
     Point sleeve_pointA = new Point(
@@ -68,48 +48,24 @@ public class SleeveDetection extends OpenCvPipeline {
 
     @Override
     public Mat processFrame(Mat input) {
-        // Noise reduction
-        Imgproc.blur(input, blurredMat, new Size(5, 5));
-        blurredMat = blurredMat.submat(new Rect(sleeve_pointA, sleeve_pointB));
+        // Get the submat frame, and then sum all the values
+        Mat areaMat = input.submat(new Rect(sleeve_pointA, sleeve_pointB));
+        Scalar sumColors = Core.sumElems(areaMat);
 
-        // Apply Morphology
-        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
-        Imgproc.morphologyEx(blurredMat, blurredMat, Imgproc.MORPH_CLOSE, kernel);
+        // Get the minimum RGB value from every single channel
+        double minColor = Math.min(sumColors.val[0], Math.min(sumColors.val[1], sumColors.val[2]));
 
-        // Gets channels from given source mat
-        Core.inRange(blurredMat, lower_green_bounds, upper_green_bounds, greMat);
-        Core.inRange(blurredMat, lower_brown_bounds, upper_brown_bounds, broMat);
-        Core.inRange(blurredMat, lower_magenta_bounds, upper_magenta_bounds, magMat);
-
-        // Gets color specific values
-        grePercent = Core.countNonZero(greMat);
-        broPercent = Core.countNonZero(broMat);
-        magPercent = Core.countNonZero(magMat);
-
-        // Calculates the highest amount of pixels being covered on each side
-        double maxPercent = Math.max(grePercent, Math.max(broPercent, magPercent));
-
-        // Checks all percentages, will highlight bounding box in camera preview
-        // based on what color is being detected
-        if (maxPercent == grePercent) {
-            position = ParkingPosition.LEFT;
-            Imgproc.rectangle(
-                    input,
-                    sleeve_pointA,
-                    sleeve_pointB,
-                    GREEN,
-                    2
-            );
-        } else if (maxPercent == broPercent) {
+        // Change the bounding box color based on the sleeve color
+        if (sumColors.val[0] == minColor) {
             position = ParkingPosition.CENTER;
             Imgproc.rectangle(
                     input,
                     sleeve_pointA,
                     sleeve_pointB,
-                    BROWN,
+                    CYAN,
                     2
             );
-        } else if (maxPercent == magPercent) {
+        } else if (sumColors.val[1] == minColor) {
             position = ParkingPosition.RIGHT;
             Imgproc.rectangle(
                     input,
@@ -118,14 +74,19 @@ public class SleeveDetection extends OpenCvPipeline {
                     MAGENTA,
                     2
             );
+        } else {
+            position = ParkingPosition.LEFT;
+            Imgproc.rectangle(
+                    input,
+                    sleeve_pointA,
+                    sleeve_pointB,
+                    GREEN,
+                    2
+            );
         }
 
-        // Memory cleanup
-        blurredMat.release();
-        greMat.release();
-        broMat.release();
-        magMat.release();
-
+        // Release and return input
+        areaMat.release();
         return input;
     }
 

@@ -138,8 +138,16 @@ public class A5Park extends LinearOpMode {
 
 
         encoderDriveStrafe(DRIVE_SPEED, 22, -22,5);
+        //if cone doesn't get stuck and/or can be run over change 50 to like 25 (tile 1)
         encoderDrive(DRIVE_SPEED, 50, 50, 5);
-
+//      scoring if possible
+        // strafe left a bit to medium junction
+        //encoderDriveStrafe(DRIVE_SPEED, -5, 5, 3);
+        //liftEncoderDrive(DRIVE_SPEED, -15, 1); might be pos idk
+        // then the strafe for detection, inches will change
+        // if right it'll move like t w o inches
+        // left prob same
+        // else (center) just test 
 
         if(position == ParkingPosition.LEFT){
             STRAFE_INCHES = 48;

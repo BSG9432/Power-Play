@@ -1,13 +1,18 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.vision.SleeveDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.vision. SleeveDetection.ParkingPosition;
 
 @Autonomous(name = "F5")
 public class Encoders2 extends LinearOpMode {
@@ -16,9 +21,8 @@ public class Encoders2 extends LinearOpMode {
     //Movement
     DcMotor frontLeft, frontRight, backLeft, backRight;
     //Game-Related
-    DcMotor lift;
+    DcMotor lift, lift2;
     CRServo claw1, claw2;
-    DcMotor lift2;
 
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -31,6 +35,7 @@ public class Encoders2 extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.4;
 
+    public static double STRAFE_INCHES = 12.0;
 
     //values for arm
     static final double     COUNTS_PER_LIFT_MOTOR_REV    = 384.5;  // eg: TETRIX Motor Encoder //2150.8
@@ -38,9 +43,37 @@ public class Encoders2 extends LinearOpMode {
     static final double     SPROCKET_DIAMETER_INCHES   = 0.8;     // For figuring circumference
     static final double     LIFT_PER_INCH         = (COUNTS_PER_LIFT_MOTOR_REV * ARM_GEAR_REDUCTION) / (SPROCKET_DIAMETER_INCHES * 3.1415);
 
+    SleeveDetection sleeveDetection;
+    OpenCvCamera camera;
+    private volatile ParkingPosition position = ParkingPosition.LEFT;
+
+    String webcamName = "Webcam 1";
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
+        sleeveDetection = new SleeveDetection();
+        camera.setPipeline(sleeveDetection);
+
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode) {}
+        });
+
+        while (!isStarted()) {
+            position = sleeveDetection.getPosition();
+            telemetry.addData("ROTATION: ", position);
+            telemetry.update();
+        }
 
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");
@@ -59,7 +92,7 @@ public class Encoders2 extends LinearOpMode {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -94,6 +127,8 @@ public class Encoders2 extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        position = sleeveDetection.getPosition();
+        //  telemetry.addData("position");
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)(good note, 10/10)
 
@@ -102,69 +137,65 @@ public class Encoders2 extends LinearOpMode {
         telemetry.update();
 
         // strafe left --> make left negative
-        // Second autonomous
-        encoderDriveStrafe(DRIVE_SPEED, 26, -26,5);
+        //First autonomous
+        // claw1.setPower(0);
+        // claw2.setPower(0);
+        // encoderDrive(DRIVE_SPEED, 3, 3,3);
+        encoderDriveStrafe(DRIVE_SPEED, 22, -22,5);
         encoderDrive(DRIVE_SPEED, 25, 25, 5);
         encoderDriveStrafe(DRIVE_SPEED, 15.5, -15.5,5);
-        claw1.setPower(0);
-        claw2.setPower(0);
+        claw1.setPower(.5);
+        claw2.setPower(-.4);
         encoderDrive(DRIVE_SPEED,-2, -2, 1.0);
-        liftEncoderDrive(DRIVE_SPEED,-51,5.0);
-        encoderDrive(DRIVE_SPEED, 5.5, 5.5, 5);
+        liftEncoderDrive(DRIVE_SPEED,-58,5.0);
+        encoderDrive(DRIVE_SPEED, 7, 7, 5);
+        sleep(3000);
+        encoderDrive(DRIVE_SPEED, 0, 0, 5 );
+        encoderDrive(DRIVE_SPEED, -7.5, -7.5, 5);
+
+        if(position == ParkingPosition.LEFT){
+            STRAFE_INCHES = 36.0;
+            //telemetry.addData(STRAFE_INCHES);
+        }
+        else if(position == ParkingPosition.RIGHT){
+            STRAFE_INCHES = 12.0;
+            // telemetry.addData(STRAFE_INCHES);
+        }
+        else{
+            STRAFE_INCHES = 24.0;
+            //telemetry.addData(STRAFE_INCHES);
+        }
+        encoderDriveStrafe(DRIVE_SPEED, -STRAFE_INCHES, STRAFE_INCHES,5);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
 
-    /*
-     *  Method to perform a relative move, based on encoder counts.
-     *  Encoders are not reset as the move is based on the current position.
-     *  Move will stop if any of three conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Move runs out of time
-     *  3) Driver stops the opmode running.
-     */
+
     public void liftEncoderDrive(double speed,
                                  double inches,
                                  double timeoutS) {
         int newliftTarget;
         int newlift2Target;
-        // int newBackLeftTarget;
-        //  int newFrontRightTarget;
-        //  int newBackRightTarget;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            // frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            // backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            // backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             // Determine new target position, and pass to motor controller
             newliftTarget = lift.getCurrentPosition() + (int) (inches * LIFT_PER_INCH);
             newlift2Target = lift2.getCurrentPosition() - (int) (inches * LIFT_PER_INCH);
-            // newBackLeftTarget = backLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            // newFrontRightTarget = frontRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-            // newBackRightTarget = backRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
             lift.setTargetPosition(newliftTarget);
             lift2.setTargetPosition(newlift2Target);
-            //  backLeft.setTargetPosition(newBackLeftTarget);
-            //  frontRight.setTargetPosition(newFrontRightTarget);
-            //  backRight.setTargetPosition(newBackRightTarget);
             // Turn On RUN_TO_POSITION
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // reset the timeout time and start motion.
             runtime.reset();
             lift.setPower(Math.abs(speed));
             lift2.setPower(Math.abs(-speed));
-            //  frontRight.setPower(Math.abs(speed));
-            //  backRight.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -189,16 +220,10 @@ public class Encoders2 extends LinearOpMode {
             // Stop all motion;
             lift.setPower(0);
             lift2.setPower(0);
-            // frontRight.setPower(0);
-            // backRight.setPower(0);
 
             // Turn off RUN_TO_POSITION
             lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            // backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            // frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            // backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
             sleep(250);   // optional pause after each move
         }
     }

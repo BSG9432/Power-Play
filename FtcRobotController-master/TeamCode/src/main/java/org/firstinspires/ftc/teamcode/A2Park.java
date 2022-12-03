@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -14,8 +14,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.vision. SleeveDetection.ParkingPosition;
 
-@Autonomous(name = "A2")
-public class Encoders4 extends LinearOpMode {
+@Autonomous(name = "A2Park")
+public class A2Park extends LinearOpMode {
 
     /* Declare OpMode members. */
     //Movement
@@ -136,36 +136,24 @@ public class Encoders4 extends LinearOpMode {
         telemetry.addData("Running", "Encoder Test...");
         telemetry.update();
 
-        // strafe left --> make left negative
-        //First autonomous
-        // claw1.setPower(0);
-        // claw2.setPower(0);
-        // encoderDrive(DRIVE_SPEED, 3, 3,3);
+
         encoderDriveStrafe(DRIVE_SPEED, -22, 22,5);
-        encoderDrive(DRIVE_SPEED, 25, 25, 5);
-        encoderDriveStrafe(DRIVE_SPEED, -15.5, 15.5,5);
-        claw1.setPower(.5);
-        claw2.setPower(-.4);
-        encoderDrive(DRIVE_SPEED,-2, -2, 1.0);
-        liftEncoderDrive(DRIVE_SPEED,-58,5.0);
-        encoderDrive(DRIVE_SPEED, 7, 7, 5);
-        sleep(3000);
-        encoderDrive(DRIVE_SPEED, 0, 0, 5 );
-        encoderDrive(DRIVE_SPEED, -7.5, -7.5, 5);
+        encoderDrive(DRIVE_SPEED, 50, 50, 5);
+
 
         if(position == ParkingPosition.LEFT){
-            STRAFE_INCHES = 36.0;
+            STRAFE_INCHES = 0;
             //telemetry.addData(STRAFE_INCHES);
         }
         else if(position == ParkingPosition.RIGHT){
-            STRAFE_INCHES = 12.0;
+            STRAFE_INCHES = 48.0;
             // telemetry.addData(STRAFE_INCHES);
         }
         else{
-            STRAFE_INCHES = 24.0;
+            STRAFE_INCHES = 22.0;
             //telemetry.addData(STRAFE_INCHES);
         }
-        encoderDriveStrafe(DRIVE_SPEED, -STRAFE_INCHES, STRAFE_INCHES,5);
+        encoderDriveStrafe(DRIVE_SPEED, STRAFE_INCHES, -STRAFE_INCHES,5);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

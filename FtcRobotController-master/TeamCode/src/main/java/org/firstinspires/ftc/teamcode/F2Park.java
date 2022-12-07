@@ -137,20 +137,31 @@ public class F2Park extends LinearOpMode {
         telemetry.update();
 
 
-        encoderDriveStrafe(DRIVE_SPEED, -22, 22,5);
-        encoderDrive(DRIVE_SPEED, 50, 50, 5);
+        //encoderDriveStrafe(DRIVE_SPEED, -22, 22,5);
+        //if cone doesn't get stuck and/or can be run over change 50 to like 25 (tile 1)
+        encoderDrive(DRIVE_SPEED, 25, 25, 5);
+//      scoring if possible
+        // strafe left a bit to medium junction
+        // close claw
+        //claw1.setPower(.5);
+        //claw2.setPower(-.4);
+        //encoderDriveStrafe(DRIVE_SPEED, -5, 5, 3);
+        //liftEncoderDrive(DRIVE_SPEED, -15, 1); might be pos idk
+        // then the strafe for detection, inches will change
+        // if right it'll move like t w o inches
+        // left prob same
+        // else (center) just test
 
-
-        if(position == ParkingPosition.LEFT){
-            STRAFE_INCHES = 0;
+        if(position == ParkingPosition.RIGHT){
+            STRAFE_INCHES = 30;
             //telemetry.addData(STRAFE_INCHES);
         }
-        else if(position == ParkingPosition.RIGHT){
-            STRAFE_INCHES = 48.0;
+        else if(position == ParkingPosition.LEFT){
+            STRAFE_INCHES = -30;
             // telemetry.addData(STRAFE_INCHES);
         }
         else{
-            STRAFE_INCHES = 22.0;
+            STRAFE_INCHES = 0;
             //telemetry.addData(STRAFE_INCHES);
         }
         encoderDriveStrafe(DRIVE_SPEED, STRAFE_INCHES, -STRAFE_INCHES,5);

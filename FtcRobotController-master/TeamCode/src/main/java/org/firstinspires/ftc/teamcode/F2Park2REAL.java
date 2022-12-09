@@ -137,20 +137,19 @@ public class F2Park2REAL extends LinearOpMode {
         telemetry.update();
 
 
-        encoderDriveStrafe(DRIVE_SPEED, 22, -22,5);
-        encoderDrive(DRIVE_SPEED, 50, 50, 5);
+        encoderDrive(DRIVE_SPEED, 25, 25, 5);
 
 
         if(position == ParkingPosition.LEFT){
-            STRAFE_INCHES = 48;
+            STRAFE_INCHES = 30;
             //telemetry.addData(STRAFE_INCHES);
         }
         else if(position == ParkingPosition.RIGHT){
-            STRAFE_INCHES = 0;
+            STRAFE_INCHES = -30;
             // telemetry.addData(STRAFE_INCHES);
         }
         else{
-            STRAFE_INCHES = 22.0;
+            STRAFE_INCHES = 0;
             //telemetry.addData(STRAFE_INCHES);
         }
         encoderDriveStrafe(DRIVE_SPEED, STRAFE_INCHES, -STRAFE_INCHES,5);

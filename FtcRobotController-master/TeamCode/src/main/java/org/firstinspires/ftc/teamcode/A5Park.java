@@ -152,12 +152,12 @@ public class A5Park extends LinearOpMode {
         // left prob same
         // else (center) just test
 
-        if(position == ParkingPosition.RIGHT){
+        if(position == SleeveDetection.ParkingPosition.RIGHT){
             STRAFE_INCHES = 30;
             //telemetry.addData(STRAFE_INCHES);
         }
-        else if(position == ParkingPosition.LEFT){
-            STRAFE_INCHES = -30;
+        else if(position == SleeveDetection.ParkingPosition.LEFT){
+            STRAFE_INCHES = -30; 
             // telemetry.addData(STRAFE_INCHES);
         }
         else{
@@ -326,9 +326,9 @@ public class A5Park extends LinearOpMode {
             // reset the timeout time and start motion.
             runtime.reset();
             frontLeft.setPower(Math.abs(speed));
-            backLeft.setPower(Math.abs(speed));
+            backLeft.setPower(Math.abs(-speed));
             frontRight.setPower(Math.abs(speed));
-            backRight.setPower(Math.abs(speed));
+            backRight.setPower(Math.abs(-speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

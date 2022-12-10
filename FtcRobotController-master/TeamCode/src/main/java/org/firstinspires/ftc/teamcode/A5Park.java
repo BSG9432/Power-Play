@@ -153,11 +153,11 @@ public class A5Park extends LinearOpMode {
         // else (center) just test
 
         if(position == SleeveDetection.ParkingPosition.RIGHT){
-            STRAFE_INCHES = 30;
+            STRAFE_INCHES = 27;
             //telemetry.addData(STRAFE_INCHES);
         }
         else if(position == SleeveDetection.ParkingPosition.LEFT){
-            STRAFE_INCHES = -30; 
+            STRAFE_INCHES = -30;
             // telemetry.addData(STRAFE_INCHES);
         }
         else{
@@ -168,6 +168,8 @@ public class A5Park extends LinearOpMode {
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
+
+
     }
 
 

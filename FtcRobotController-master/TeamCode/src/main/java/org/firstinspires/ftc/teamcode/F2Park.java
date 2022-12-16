@@ -241,10 +241,10 @@ public class F2Park extends LinearOpMode {
             backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             // Determine new target position, and pass to motor controller
-            newFrontLeftTarget = frontLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newBackLeftTarget = backLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newFrontRightTarget = frontRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-            newBackRightTarget = backRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newFrontLeftTarget = frontLeft.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
+            newBackLeftTarget = backLeft.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
+            newFrontRightTarget = frontRight.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
+            newBackRightTarget = backRight.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
             frontLeft.setTargetPosition(newFrontLeftTarget);
             backLeft.setTargetPosition(newBackLeftTarget);
             frontRight.setTargetPosition(newFrontRightTarget);
@@ -256,10 +256,10 @@ public class F2Park extends LinearOpMode {
             backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // reset the timeout time and start motion.
             runtime.reset();
-            frontLeft.setPower(Math.abs(speed));
-            backLeft.setPower(Math.abs(speed));
-            frontRight.setPower(Math.abs(speed));
-            backRight.setPower(Math.abs(speed));
+            frontLeft.setPower(Math.abs(-speed));
+            backLeft.setPower(Math.abs(-speed));
+            frontRight.setPower(Math.abs(-speed));
+            backRight.setPower(Math.abs(-speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -310,10 +310,10 @@ public class F2Park extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newFrontLeftTarget = frontLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newBackLeftTarget = backLeft.getCurrentPosition() - (int)(leftInches * COUNTS_PER_INCH);
-            newFrontRightTarget = frontRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newBackRightTarget = backRight.getCurrentPosition() - (int)(rightInches * COUNTS_PER_INCH);
+            newFrontLeftTarget = frontLeft.getCurrentPosition() - (int)(leftInches * COUNTS_PER_INCH);
+            newBackLeftTarget = backLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newFrontRightTarget = frontRight.getCurrentPosition() - (int)(rightInches * COUNTS_PER_INCH);
+            newBackRightTarget = backRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
             frontLeft.setTargetPosition(newFrontLeftTarget);
             backLeft.setTargetPosition(newBackLeftTarget);
             frontRight.setTargetPosition(newFrontRightTarget);
@@ -325,9 +325,9 @@ public class F2Park extends LinearOpMode {
             backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // reset the timeout time and start motion.
             runtime.reset();
-            frontLeft.setPower(Math.abs(speed));
+            frontLeft.setPower(Math.abs(-speed));
             backLeft.setPower(Math.abs(speed));
-            frontRight.setPower(Math.abs(speed));
+            frontRight.setPower(Math.abs(-speed));
             backRight.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.

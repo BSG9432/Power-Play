@@ -35,23 +35,23 @@ import com.qualcomm.robotcore.hardware.DcMotor;
             telemetry.update();
 
             //Movement (P1) - Going Backwards / Forwards / Turning
-            if (Math.abs(gamepad1.left_stick_y) > .1 || Math.abs(gamepad1.right_stick_y) > .1 / 2)  {
-                frontLeft.setPower(gamepad1.left_stick_y);
-                backLeft.setPower(gamepad1.left_stick_y);
-                frontRight.setPower(-gamepad1.right_stick_y);
-                backRight.setPower(-gamepad1.right_stick_y);
+            if (Math.abs(gamepad1.left_stick_y) > .1 / 2 || Math.abs(gamepad1.right_stick_y) > .1 / 2)  {
+                frontLeft.setPower(-gamepad1.left_stick_y);  // pos
+                backLeft.setPower(-gamepad1.left_stick_y);     // pos
+                frontRight.setPower(gamepad1.right_stick_y); // neg
+                backRight.setPower(gamepad1.right_stick_y);   // neg
             }
             //Strafing
             else if (gamepad1.left_trigger > .1) {
-                frontLeft.setPower(gamepad1.left_trigger);
-                backLeft.setPower(-gamepad1.left_trigger);
-                frontRight.setPower(gamepad1.left_trigger);
-                backRight.setPower(-gamepad1.left_trigger);
+                frontLeft.setPower(-gamepad1.left_trigger);
+                backLeft.setPower(gamepad1.left_trigger); // neg
+                frontRight.setPower(-gamepad1.left_trigger);
+                backRight.setPower(gamepad1.left_trigger); // neg
             } else if (gamepad1.right_trigger > .1) {
-                frontLeft.setPower(-gamepad1.right_trigger);
-                backLeft.setPower(gamepad1.right_trigger);
-                frontRight.setPower(-gamepad1.right_trigger);
-                backRight.setPower(gamepad1.right_trigger);
+                frontLeft.setPower(gamepad1.right_trigger); // neg
+                backLeft.setPower(-gamepad1.right_trigger);
+                frontRight.setPower(gamepad1.right_trigger); // neg
+                backRight.setPower(-gamepad1.right_trigger);
             } else {
                 frontLeft.setPower(0);
                 backLeft.setPower(0);

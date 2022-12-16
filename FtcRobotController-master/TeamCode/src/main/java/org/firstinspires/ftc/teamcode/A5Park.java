@@ -139,7 +139,11 @@ public class A5Park extends LinearOpMode {
 
         //encoderDriveStrafe(DRIVE_SPEED, -22, 22,5);
         //if cone doesn't get stuck and/or can be run over change 50 to like 25 (tile 1)
-        encoderDrive(DRIVE_SPEED, 25, 25, 5);
+       // encoderDrive(DRIVE_SPEED, 20, 20, 5);
+
+        // both - make strafe left
+        encoderDriveStrafe(DRIVE_SPEED, -20.0,-20.0,5.0);
+
 //      scoring if possible
         // strafe left a bit to medium junction
         // close claw
@@ -152,7 +156,7 @@ public class A5Park extends LinearOpMode {
         // left prob same
         // else (center) just test
 
-        if(position == SleeveDetection.ParkingPosition.RIGHT){
+      /*  if(position == SleeveDetection.ParkingPosition.RIGHT){
             STRAFE_INCHES = 27;
             //telemetry.addData(STRAFE_INCHES);
         }
@@ -168,6 +172,8 @@ public class A5Park extends LinearOpMode {
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
+
+       */
 
 
     }
@@ -243,10 +249,10 @@ public class A5Park extends LinearOpMode {
             backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             // Determine new target position, and pass to motor controller
-            newFrontLeftTarget = frontLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newBackLeftTarget = backLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
-            newFrontRightTarget = frontRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
-            newBackRightTarget = backRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newFrontLeftTarget = frontLeft.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
+            newBackLeftTarget = backLeft.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
+            newFrontRightTarget = frontRight.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
+            newBackRightTarget = backRight.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
             frontLeft.setTargetPosition(newFrontLeftTarget);
             backLeft.setTargetPosition(newBackLeftTarget);
             frontRight.setTargetPosition(newFrontRightTarget);
@@ -258,10 +264,10 @@ public class A5Park extends LinearOpMode {
             backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // reset the timeout time and start motion.
             runtime.reset();
-            frontLeft.setPower(Math.abs(speed));
-            backLeft.setPower(Math.abs(speed));
-            frontRight.setPower(Math.abs(speed));
-            backRight.setPower(Math.abs(speed));
+            frontLeft.setPower(Math.abs(-speed));
+            backLeft.setPower(Math.abs(-speed));
+            frontRight.setPower(Math.abs(-speed));
+            backRight.setPower(Math.abs(-speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -312,10 +318,10 @@ public class A5Park extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newFrontLeftTarget = frontLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newBackLeftTarget = backLeft.getCurrentPosition() - (int)(leftInches * COUNTS_PER_INCH);
-            newFrontRightTarget = frontRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newBackRightTarget = backRight.getCurrentPosition() - (int)(rightInches * COUNTS_PER_INCH);
+            newFrontLeftTarget = frontLeft.getCurrentPosition() - (int)(leftInches * COUNTS_PER_INCH);
+            newBackLeftTarget = backLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newFrontRightTarget = frontRight.getCurrentPosition() - (int)(rightInches * COUNTS_PER_INCH);
+            newBackRightTarget = backRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
             frontLeft.setTargetPosition(newFrontLeftTarget);
             backLeft.setTargetPosition(newBackLeftTarget);
             frontRight.setTargetPosition(newFrontRightTarget);
@@ -327,10 +333,10 @@ public class A5Park extends LinearOpMode {
             backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             // reset the timeout time and start motion.
             runtime.reset();
-            frontLeft.setPower(Math.abs(speed));
-            backLeft.setPower(Math.abs(-speed));
-            frontRight.setPower(Math.abs(speed));
-            backRight.setPower(Math.abs(-speed));
+            frontLeft.setPower(Math.abs(-speed));
+            backLeft.setPower(Math.abs(speed));
+            frontRight.setPower(Math.abs(-speed));
+            backRight.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

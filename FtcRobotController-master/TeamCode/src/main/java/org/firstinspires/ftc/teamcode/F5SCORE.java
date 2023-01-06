@@ -145,25 +145,24 @@ public class F5SCORE extends LinearOpMode {
         claw1.setPower(-.5);
         claw2.setPower(.4);
 
-        encoderDrive(DRIVE_SPEED, 4, 4, 5);
+        encoderDrive(DRIVE_SPEED, 6, 6, 5);
 
         claw1.setPower(.5);
         claw2.setPower(-.4);
         sleep(1000);
         encoderDrive(DRIVE_SPEED,-6,-6,1.0);
 
-        encoderDriveStrafe(DRIVE_SPEED,16.5,-16.5,2.0);
+        encoderDriveStrafe(DRIVE_SPEED,-11,11,2.0);
         liftEncoderDrive(DRIVE_SPEED,-30,5.0);
         encoderDrive(DRIVE_SPEED, 1.5, 1.5, 5);
         liftEncoderDrive(DRIVE_SPEED, 30, 2.0);
         claw1.setPower(-.5);
         claw2.setPower(.4);
-        encoderDrive(DRIVE_SPEED, -2, -2, 1.0);
-        encoderDriveStrafe(DRIVE_SPEED, -16.5,16.5,1.0);
+        encoderDrive(DRIVE_SPEED, -4, -4, 1.0);
+        encoderDriveStrafe(DRIVE_SPEED, 14,-14,1.0);
         sleep(1000);
         encoderDrive(DRIVE_SPEED, 24, 24, 5.0);
         sleep(1000);
-
 
 
 
@@ -174,7 +173,7 @@ public class F5SCORE extends LinearOpMode {
             //telemetry.addData(STRAFE_INCHES);
         }
         else if(position == SleeveDetection.ParkingPosition.LEFT){
-            STRAFE_INCHES = -30;
+            STRAFE_INCHES = -26;
             // telemetry.addData(STRAFE_INCHES);
         }
         else{

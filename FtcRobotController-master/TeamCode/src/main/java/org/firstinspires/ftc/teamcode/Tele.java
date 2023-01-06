@@ -32,6 +32,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         public void loop() {
             telemetry.addData("claw1", claw1.getPower());
             telemetry.addData("claw2", claw2.getPower());
+            telemetry.addData("frontLeft",frontLeft.getPower());
+            telemetry.addData("frontRight",frontRight.getPower());
+            telemetry.addData("backLeft",backLeft.getPower());
+            telemetry.addData("backRight",backRight.getPower());
             telemetry.update();
 
             //Movement (P1) - Going Backwards / Forwards / Turning

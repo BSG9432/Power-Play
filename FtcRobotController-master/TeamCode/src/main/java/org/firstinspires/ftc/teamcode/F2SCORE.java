@@ -33,7 +33,7 @@ public class F2SCORE extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 3.77953;     // For figuring circumference
 
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 1.0;
+    static final double     DRIVE_SPEED             = 0.6;
 
     public static double STRAFE_INCHES = 12.0;
 
@@ -152,14 +152,14 @@ public class F2SCORE extends LinearOpMode {
         sleep(1000);
         encoderDrive(DRIVE_SPEED,-6,-6,1.0);
 
-        encoderDriveStrafe(DRIVE_SPEED,12.5,-12.5,2.0);
+        encoderDriveStrafe(DRIVE_SPEED,16.5,-16.5,2.0);
         liftEncoderDrive(DRIVE_SPEED,-30,5.0);
-        encoderDrive(DRIVE_SPEED, 3, 3, 5);
+        encoderDrive(DRIVE_SPEED, 1.5, 1.5, 5);
         liftEncoderDrive(DRIVE_SPEED, 30, 2.0);
         claw1.setPower(-.5);
         claw2.setPower(.4);
         encoderDrive(DRIVE_SPEED, -2, -2, 1.0);
-        encoderDriveStrafe(DRIVE_SPEED, -12.5,12.5,1.0);
+        encoderDriveStrafe(DRIVE_SPEED, -16.5,16.5,1.0);
         sleep(1000);
         encoderDrive(DRIVE_SPEED, 24, 24, 5.0);
         sleep(1000);

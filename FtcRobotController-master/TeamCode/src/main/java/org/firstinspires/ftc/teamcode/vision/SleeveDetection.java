@@ -11,7 +11,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 public class SleeveDetection extends OpenCvPipeline {
     /*
-    GREEN  = Parking Left
+    ORANGE  = Parking Left
     CYAN    = Parking Middle
     MAGENTA = Parking Right
      */
@@ -31,7 +31,8 @@ public class SleeveDetection extends OpenCvPipeline {
 
     // Color definitions
     private final Scalar
-            GREEN  = new Scalar(31, 234, 0),
+            // GREEN  = new Scalar(31, 234, 0),
+            ORANGE  = new Scalar(255, 131, 0),
             CYAN    = new Scalar(0, 255, 255),
           //  YELLOW = new Scalar (255,229,82);
             MAGENTA = new Scalar(255, 37, 189);
@@ -82,7 +83,7 @@ public class SleeveDetection extends OpenCvPipeline {
                     input,
                     sleeve_pointA,
                     sleeve_pointB,
-                    GREEN,
+                    ORANGE,
                     2
             );
         }

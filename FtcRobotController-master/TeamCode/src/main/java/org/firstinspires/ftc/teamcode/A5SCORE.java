@@ -142,31 +142,33 @@ public class A5SCORE extends LinearOpMode {
         telemetry.update();
 
 
-
+     /*
+      claw1.setPower(-.5);
+      claw2.setPower(.4);
+       encoderDrive(DRIVE_SPEED, 2, 2, 5);
+    */
         claw1.setPower(-.5);
         claw2.setPower(.4);
-        encoderDrive(DRIVE_SPEED, 2, 2, 5);
 
-        claw1.setPower(-.5);
-        claw2.setPower(.4);
-
-        encoderDrive(DRIVE_SPEED, 4, 4, 5);
+  //      encoderDrive(DRIVE_SPEED, 4, 4, 5);
 
         claw1.setPower(.5);
         claw2.setPower(-.4);
         sleep(1000);
-        encoderDrive(DRIVE_SPEED,-6,-6,1.0);
+   //     encoderDrive(DRIVE_SPEED,-6,-6,1.0);
 
         encoderDriveStrafe(DRIVE_SPEED,16.5,-16.5,2.0); // neg pos
-        liftEncoderDrive(DRIVE_SPEED,-30,5.0);
-        encoderDrive(DRIVE_SPEED, 1.5, 1.5, 5);
+        liftEncoderDrive(DRIVE_SPEED,-33,5.0);
+        encoderDrive(DRIVE_SPEED, 3, 3, 5);
         liftEncoderDrive(DRIVE_SPEED, 30, 2.0);
         claw1.setPower(-.5);
         claw2.setPower(.4);
-        encoderDrive(DRIVE_SPEED, -2, -2, 1.0);
-        encoderDriveStrafe(DRIVE_SPEED, -14,14,1.0); // pos neg QQQQQQQQQ
+        encoderDrive(DRIVE_SPEED, -3, -3, 1.0);
+        claw1.setPower(.5);
+        claw2.setPower(-.4);
+        encoderDriveStrafe(DRIVE_SPEED, -13,13,1.0); // pos neg QQQQQQQQQ
         sleep(1000);
-        encoderDrive(DRIVE_SPEED, 24, 24, 5.0);
+        encoderDrive(DRIVE_SPEED, 23, 23, 5.0);
         sleep(1000);
 
 
@@ -175,11 +177,11 @@ public class A5SCORE extends LinearOpMode {
 //
 
         if(position == SleeveDetection.ParkingPosition.RIGHT){
-            STRAFE_INCHES = 27;
+            STRAFE_INCHES = 25;
             //telemetry.addData(STRAFE_INCHES);
         }
         else if(position == SleeveDetection.ParkingPosition.LEFT){
-            STRAFE_INCHES = -30;
+            STRAFE_INCHES = -28;
             // telemetry.addData(STRAFE_INCHES);
         }
         else{

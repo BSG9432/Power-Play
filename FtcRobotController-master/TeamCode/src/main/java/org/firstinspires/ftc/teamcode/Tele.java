@@ -32,14 +32,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         public void loop() {
             telemetry.addData("claw1", claw1.getPower());
             telemetry.addData("claw2", claw2.getPower());
-            telemetry.addData("frontLeft",frontLeft.getPower());
-            telemetry.addData("frontRight",frontRight.getPower());
-            telemetry.addData("backLeft",backLeft.getPower());
-            telemetry.addData("backRight",backRight.getPower());
+            telemetry.addData("frontLeft", frontLeft.getPower());
+            telemetry.addData("frontRight", frontRight.getPower());
+            telemetry.addData("backLeft", backLeft.getPower());
+            telemetry.addData("backRight", backRight.getPower());
             telemetry.update();
 
             //Movement (P1) - Going Backwards / Forwards / Turning
-            if (Math.abs(gamepad1.left_stick_y) > .1 / 2 || Math.abs(gamepad1.right_stick_y) > .1 / 2)  {
+            if (Math.abs(gamepad1.left_stick_y) > .1 / 2 || Math.abs(gamepad1.right_stick_y) > .1 / 2) {
                 frontLeft.setPower(gamepad1.left_stick_y);  // pos
                 backLeft.setPower(gamepad1.left_stick_y);     // pos
                 frontRight.setPower(-gamepad1.right_stick_y); // neg
@@ -56,7 +56,34 @@ import com.qualcomm.robotcore.hardware.DcMotor;
                 backLeft.setPower(gamepad1.right_trigger);
                 frontRight.setPower(-gamepad1.right_trigger); // neg
                 backRight.setPower(gamepad1.right_trigger);
-            } else {
+
+            }
+
+            // slow controls
+         else if (gamepad1.dpad_left) {
+                    frontLeft.setPower(.25);
+                    backLeft.setPower(-.25);
+                    frontRight.setPower(.25);
+                    backRight.setPower(-.25);
+                } else if (gamepad1.dpad_right) {
+                    frontLeft.setPower(-.25);
+                    backLeft.setPower(.25);
+                    frontRight.setPower(-.25);
+                    backRight.setPower(.25);
+                } else if (gamepad1.dpad_down) {
+                    frontLeft.setPower(.25);
+                    backLeft.setPower(.25);
+                    frontRight.setPower(-.25);
+                    backRight.setPower(-.25);
+                } else if (gamepad1.dpad_up) {
+                    frontLeft.setPower(-.25);
+                    backLeft.setPower(-.25);
+                    frontRight.setPower(.25);
+                    backRight.setPower(.25);
+                }
+
+
+             else {
                 frontLeft.setPower(0);
                 backLeft.setPower(0);
                 frontRight.setPower(0);
@@ -71,6 +98,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
             } else if (Math.abs(gamepad2.right_trigger) > .1) {
                 lift.setPower(-gamepad2.right_trigger);
                 lift2.setPower(gamepad2.right_trigger);
+            }
+                else if (gamepad2.dpad_up) {
+                    lift.setPower(-.35);
+                    lift2.setPower(.35);
             } else {
                 lift.setPower(0);
                 lift2.setPower(0);

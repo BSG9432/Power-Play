@@ -137,24 +137,24 @@ public class A2SCORE extends LinearOpMode {
         telemetry.update();
 
 
-
+/*
         claw1.setPower(-.5);
         claw2.setPower(.4);
         encoderDrive(DRIVE_SPEED, 2, 2, 5);
-
+*/
         claw1.setPower(-.5);
         claw2.setPower(.4);
 
-        encoderDrive(DRIVE_SPEED, 6, 6, 5);
+  //      encoderDrive(DRIVE_SPEED, 6, 6, 5);
 
         claw1.setPower(.5);
         claw2.setPower(-.4);
         sleep(1000);
-        encoderDrive(DRIVE_SPEED,-6,-6,1.0);
+   //     encoderDrive(DRIVE_SPEED,-6,-6,1.0);
 
         encoderDriveStrafe(DRIVE_SPEED,-11,11,2.0);
-        liftEncoderDrive(DRIVE_SPEED,-30,5.0);
-        encoderDrive(DRIVE_SPEED, 1.5, 1.5, 5);
+        liftEncoderDrive(DRIVE_SPEED,-35,5.0);
+        encoderDrive(DRIVE_SPEED, 2.5, 2.5, 5);
         liftEncoderDrive(DRIVE_SPEED, 30, 2.0);
         claw1.setPower(-.5);
         claw2.setPower(.4);

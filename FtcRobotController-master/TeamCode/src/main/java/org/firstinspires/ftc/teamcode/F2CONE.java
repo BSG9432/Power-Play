@@ -151,23 +151,23 @@ public class F2CONE extends LinearOpMode {
         encoderDriveStrafe(DRIVE_SPEED, -12,12,1.0); // pos neg QQQQQQQQQ
         //Second cone score
         encoderDrive(0.6, 52, 52, 5.0);
-        encoderDrive(0.6, -3, -3, 1);
-        encoderDrive(0.6, -23, 23, 1);
-        liftEncoderDrive(0.6, -20, 1);
-        encoderDrive(0.6, 19.5, 19.5, 1);
+        encoderDrive(0.6, -5, -5, 1);
+        encoderDrive(0.6, -22, 22, 1);
+        liftEncoderDrive(0.6, -21, 1);
+        encoderDrive(0.6, 20.5, 20.5, 1);
         claw1.setPower(.5);
         claw2.setPower(-.4);
         sleep(1000);
         encoderDrive(0.6, -1, -1, 1);
         liftEncoderDrive(0.6, -15,1);
-        encoderDrive(0.6, -19, -19, 4.0);
+        encoderDrive(0.6, -21, -21, 4.0);
         encoderDriveStrafe(0.6, -13, 13, 2.0);
       liftEncoderDrive(0.6,-13,5.0);
-        encoderDrive(0.6, 2.5, 2.5, 5);
+        encoderDrive(0.6, 1.5, 1.5, 5);
        liftEncoderDrive(0.6, 30, 2.0);
         claw1.setPower(-.5);
         claw2.setPower(.4);
-        encoderDrive(0.6, -4, -4, 1.0);
+        encoderDrive(0.6, -3.5, -3.5, 1.0);
         claw1.setPower(.5);
         claw2.setPower(-.5);
         encoderDriveStrafe(0.6, -11, 11, 1 );
@@ -177,11 +177,11 @@ public class F2CONE extends LinearOpMode {
 //
 
         if(position == SleeveDetection.ParkingPosition.RIGHT){
-            DETECTION_INCHES = 27;
+            DETECTION_INCHES = -24;
             //telemetry.addData(STRAFE_INCHES);
         }
         else if(position == SleeveDetection.ParkingPosition.LEFT){
-            DETECTION_INCHES = -30;
+            DETECTION_INCHES = 25;
             // telemetry.addData(STRAFE_INCHES);
         }
         else{

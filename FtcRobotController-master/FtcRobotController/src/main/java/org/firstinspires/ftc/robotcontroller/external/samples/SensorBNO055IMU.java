@@ -55,8 +55,17 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @TeleOp(name = "Sensor: BNO055 IMU", group = "Sensor")
-@Disabled                            // Comment this out to add to the opmode list
 public class SensorBNO055IMU extends LinearOpMode
+
+// Comment this out to add to the opmode list
+/*
+    DcMotor frontLeft, frontRight, backLeft, backRight;
+//Game-Related
+    DcMotor lift, lift2;
+    CRServo claw1, claw2;
+   */
+
+
     {
     //----------------------------------------------------------------------------------------------
     // State
@@ -111,6 +120,7 @@ public class SensorBNO055IMU extends LinearOpMode
     // Telemetry Configuration
     //----------------------------------------------------------------------------------------------
 
+        
     void composeTelemetry() {
 
         // At the beginning of each telemetry update, grab a bunch of data

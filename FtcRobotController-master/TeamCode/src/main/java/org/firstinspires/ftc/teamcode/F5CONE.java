@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.vision. SleeveDetection.ParkingPosition;
 
-@Autonomous(name = "F5CONE")
+@Autonomous(name = "F5CONE/A2CONE")
 public class F5CONE extends LinearOpMode {
 
     /* Declare OpMode members. */

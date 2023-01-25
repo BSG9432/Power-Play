@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.vision. SleeveDetection.ParkingPosition;
 
-@Autonomous(name = "F2CONE/A5CONE")
+@Autonomous(name = "THISONESGGJGJH")
 public class F2CONE extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -141,25 +141,25 @@ public class F2CONE extends LinearOpMode {
         claw2.setPower(-.4);
         sleep(1000);
         //  First cone score
-        encoderDriveStrafe(DRIVE_SPEED,16,-16,2.0); // neg pos
+        encoderDriveStrafe(DRIVE_SPEED,-16,16,2.0); // neg pos
         liftEncoderDrive(DRIVE_SPEED,-33,5.0);
         encoderDrive(DRIVE_SPEED, 3, 3, 5);
-        liftEncoderDrive(DRIVE_SPEED, 30, 2.0);
+        liftEncoderDrive(DRIVE_SPEED, 15, 2.0);
         claw1.setPower(-.5);
         claw2.setPower(.4);
         encoderDrive(DRIVE_SPEED, -2, -2, 1.0);
-        encoderDriveStrafe(DRIVE_SPEED, -12,12,1.0); // pos neg QQQQQQQQQ
+        encoderDriveStrafe(DRIVE_SPEED, -10,10,1.0); // pos neg QQQQQQQQQ
         //Second cone score
-        encoderDrive(0.6, 52, 52, 5.0);
-        encoderDrive(0.6, -5, -5, 1);
+        encoderDrive(0.6, 53, 53, 5.0); // big forward
+        encoderDrive(0.6, -6, -6, 1); // back after big forward
         encoderDrive(0.6, -22, 22, 1);
-        liftEncoderDrive(0.6, -21, 1);
-        encoderDrive(0.6, 20.5, 20.5, 1);
+        liftEncoderDrive(0.6, -17, 1);
+        encoderDrive(0.6, 18, 18, 1); // move left before drop cone
         claw1.setPower(.5);
         claw2.setPower(-.4);
         sleep(1000);
         encoderDrive(0.6, -1, -1, 1);
-        liftEncoderDrive(0.6, -15,1);
+        liftEncoderDrive(0.6, -13,1); // changy ?? on move left after drop cone
         encoderDrive(0.6, -21, -21, 4.0);
         encoderDriveStrafe(0.6, -13, 13, 2.0);
       liftEncoderDrive(0.6,-13,5.0);
@@ -177,7 +177,7 @@ public class F2CONE extends LinearOpMode {
 //
 
         if(position == SleeveDetection.ParkingPosition.RIGHT){
-            DETECTION_INCHES = -24;
+            DETECTION_INCHES = -22;
             //telemetry.addData(STRAFE_INCHES);
         }
         else if(position == SleeveDetection.ParkingPosition.LEFT){

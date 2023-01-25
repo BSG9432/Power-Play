@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.vision. SleeveDetection.ParkingPosition;
 
-@Autonomous(name = "F5CONE/A2CONE")
+@Autonomous(name = "RUNTHISONERS")
 public class F5CONE extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -137,25 +137,19 @@ public class F5CONE extends LinearOpMode {
         telemetry.update();
 
 
-/*
-        claw1.setPower(-.5);
-        claw2.setPower(.4);
-        encoderDrive(DRIVE_SPEED, 2, 2, 5);
-*/
         claw1.setPower(-.5);
         claw2.setPower(.4);
 
-        //       encoderDrive(DRIVE_SPEED, 6, 6, 5);
 
         claw1.setPower(.5);
         claw2.setPower(-.4);
         sleep(1000);
-        //       encoderDrive(DRIVE_SPEED,-6,-6,1.0);
 
-        encoderDriveStrafe(DRIVE_SPEED,-11,11,2.0);
-        liftEncoderDrive(DRIVE_SPEED,-35,5.0);
+
+        encoderDriveStrafe(DRIVE_SPEED,-16,16,2.0); // neg pos
+        liftEncoderDrive(DRIVE_SPEED,-33,5.0);
         encoderDrive(DRIVE_SPEED, 3, 3, 5);
-        liftEncoderDrive(DRIVE_SPEED, 30, 2.0);
+        liftEncoderDrive(DRIVE_SPEED, 15, 2.0);
         claw1.setPower(-.5);
         claw2.setPower(.4);
 
@@ -165,8 +159,8 @@ public class F5CONE extends LinearOpMode {
         encoderDrive(0.6, 52, 52, 5.0);
         encoderDrive(0.6, -3, -3, 1);
         encoderDrive(0.6, 22, -22, 1);
-        liftEncoderDrive(0.6, -20, 1);
-        encoderDrive(0.6, 19.5, 19.5, 1);
+        liftEncoderDrive(0.6, -17, 1);
+        encoderDrive(0.6, 22, 22, 1);
         claw1.setPower(.5);
         claw2.setPower(-.4);
         sleep(1000);

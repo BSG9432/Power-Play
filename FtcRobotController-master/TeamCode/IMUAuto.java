@@ -48,19 +48,19 @@ public class IMUAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     static final double COUNTS_PER_MOTOR_REV = 537.7;    // eg: TETRIX Motor Encoder
-    static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
+    static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 3.77953;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.65;
+    static final double DRIVE_SPEED = 1.0;
     static final double TURN_SPEED = 0.5;
 
     public static double DETECTION_INCHES = 12.0;
 
-    static final double     COUNTS_PER_LIFT_MOTOR_REV    = 384.5;  // eg: TETRIX Motor Encoder //2150.8
-    static final double     ARM_GEAR_REDUCTION    = 0.3;        // This is < 1.0 if geared UP
-    static final double     SPROCKET_DIAMETER_INCHES   = 0.8;     // For figuring circumference
-    static final double     LIFT_PER_INCH         = (COUNTS_PER_LIFT_MOTOR_REV * ARM_GEAR_REDUCTION) / (SPROCKET_DIAMETER_INCHES * 3.1415);
+    static final double COUNTS_PER_LIFT_MOTOR_REV = 384.5;  // eg: TETRIX Motor Encoder //2150.8
+    static final double ARM_GEAR_REDUCTION = 0.3;        // This is < 1.0 if geared UP
+    static final double SPROCKET_DIAMETER_INCHES = 0.8;     // For figuring circumference
+    static final double LIFT_PER_INCH = (COUNTS_PER_LIFT_MOTOR_REV * ARM_GEAR_REDUCTION) / (SPROCKET_DIAMETER_INCHES * 3.1415);
 
     SleeveDetection sleeveDetection;
     OpenCvCamera camera;
@@ -77,16 +77,15 @@ public class IMUAuto extends LinearOpMode {
         sleeveDetection = new SleeveDetection();
         camera.setPipeline(sleeveDetection);
 
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
-            public void onOpened()
-            {
-                camera.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
+            public void onOpened() {
+                camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode) {}
+            public void onError(int errorCode) {
+            }
         });
 
         while (!isStarted()) {
@@ -183,51 +182,65 @@ public class IMUAuto extends LinearOpMode {
         sleep(1000);
 
         // Strafes right to score 1st cone.
-        encoderDriveStrafe(DRIVE_SPEED,-10,10,2.0); // neg pos
+        encoderDriveStrafe(0.6, 10, 10, 5.0); // neg pos
+
+
         // Lifts 33 inches to score
-        liftEncoderDrive(DRIVE_SPEED,-33,5.0);
+        liftEncoderDrive(DRIVE_SPEED, -33, 5.0);
         // Drives closer to junction
-        encoderDrive(DRIVE_SPEED, 3, 3, 5);
+        encoderDrive(DRIVE_SPEED, -3, 3, 5);
         //Lowers lift and lets go of cone.
         liftEncoderDrive(DRIVE_SPEED, 15, 2.0);
         claw1.setPower(-.5);
         claw2.setPower(.4);
         // Drives back 4 inches.
-        encoderDrive(DRIVE_SPEED, -4, -4, 1.0);
+        encoderDrive(DRIVE_SPEED, 4, -4, 1.0);
         // Strafes left 14 inches to score 2nd cone.
-        encoderDriveStrafe(DRIVE_SPEED, 14,-14,1.0);
+        encoderDriveStrafe(DRIVE_SPEED, -14, -14, 1.0);
         sleep(1000);
         // Drives forward 52 inches towards cone stack.
-        encoderDrive(0.6, 52, 52, 5.0);
+        encoderDrive(.9, -52, 52, 5.0);
         // Adjusts position
-        encoderDrive(0.6, -3, -3, 1);
+        encoderDrive(0.6, 15, -15, 1);
         // Turns left 22 inches towards stone
-        //encoderDrive(0.6, 22, -22, 1);
+        //      encoderDrive(0.6, 22, -22, 1);
         //this wil replace turn eventually
-       rotate(-90, .5);
+        rotate(-88, .5);
         // Lifts up 17 inches
-
+        liftEncoderDrive(0.6, -17, 1);
+        encoderDrive(0.6, 22, 22, 1);
+        claw1.setPower(.5);
+        claw2.setPower(-.4);
+        sleep(1000);
+        encoderDrive(0.6, -1, -1, 1);
+        liftEncoderDrive(0.6, -15,1);
+        encoderDrive(0.6, -21, -21, 4.0);
+        encoderDriveStrafe(0.6, 12.5, -12.5, 2.0);
+        liftEncoderDrive(0.6,-13,5.0);
+        encoderDrive(0.6, 1.5, 1.5, 5);
+        liftEncoderDrive(0.6, 30, 2.0);
+        claw1.setPower(-.5);
+        claw2.setPower(.4);
+        encoderDrive(0.6, -4, -4, 1.0);
+        claw1.setPower(.5);
+        claw2.setPower(-.5);
+        encoderDriveStrafe(0.6, 11, -11, 1 );
 
 
 //
 
-        if(position == SleeveDetection.ParkingPosition.RIGHT){
+        if (position == SleeveDetection.ParkingPosition.RIGHT) {
             DETECTION_INCHES = 27;
             //telemetry.addData(DETECTION_INCHES);
-        }
-        else if(position == SleeveDetection.ParkingPosition.LEFT){
+        } else if (position == SleeveDetection.ParkingPosition.LEFT) {
             DETECTION_INCHES = -21;
             // telemetry.addData(DETECTION_INCHES);
-        }
-        else{
+        } else {
             DETECTION_INCHES = 0;
             //telemetry.addData(DETECTION_INCHES);
         }
-       // encoderDrive(DRIVE_SPEED, DETECTION_INCHES, DETECTION_INCHES,5);
+        // encoderDrive(DRIVE_SPEED, DETECTION_INCHES, DETECTION_INCHES,5);
         // encoderDrive(DRIVE_SPEED, 20, 20,2.0);
-
-
-
 
 
         telemetry.addData("Path", "Complete");
@@ -235,11 +248,6 @@ public class IMUAuto extends LinearOpMode {
 
 
     }
-
-
-
-
-
 
 
     /*
@@ -305,6 +313,7 @@ public class IMUAuto extends LinearOpMode {
             sleep(250);   // optional pause after each move
         }
     }
+
     public void encoderDrive(double speed, double leftInches, double rightInches, double timeoutS) {
         int newFrontLeftTarget;
         int newBackLeftTarget;
@@ -389,10 +398,10 @@ public class IMUAuto extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newFrontLeftTarget = frontLeft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newBackLeftTarget = backLeft.getCurrentPosition() - (int)(leftInches * COUNTS_PER_INCH);
-            newFrontRightTarget = frontRight.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newBackRightTarget = backRight.getCurrentPosition() - (int)(rightInches * COUNTS_PER_INCH);
+            newFrontLeftTarget = frontLeft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newBackLeftTarget = backLeft.getCurrentPosition() - (int) (leftInches * COUNTS_PER_INCH);
+            newFrontRightTarget = frontRight.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            newBackRightTarget = backRight.getCurrentPosition() - (int) (rightInches * COUNTS_PER_INCH);
             frontLeft.setTargetPosition(newFrontLeftTarget);
             backLeft.setTargetPosition(newBackLeftTarget);
             frontRight.setTargetPosition(newFrontRightTarget);
@@ -420,8 +429,8 @@ public class IMUAuto extends LinearOpMode {
                     (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newFrontLeftTarget,  newBackLeftTarget, newFrontRightTarget, newBackRightTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
+                telemetry.addData("Path1", "Running to %7d :%7d", newFrontLeftTarget, newBackLeftTarget, newFrontRightTarget, newBackRightTarget);
+                telemetry.addData("Path2", "Running at %7d :%7d",
                         frontLeft.getCurrentPosition(),
                         backLeft.getCurrentPosition(),
                         frontRight.getCurrentPosition(),
@@ -444,6 +453,7 @@ public class IMUAuto extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
+
 
     private void resetAngle()
     {
@@ -507,4 +517,5 @@ public class IMUAuto extends LinearOpMode {
         // reset angle tracking on new heading.
         resetAngle();
     }
+
 }
